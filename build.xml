@@ -1,0 +1,20 @@
+<project name="Finance-project" default="jar" basedir=".">
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+    <target name="compile">
+        <mkdir dir="build/class"/>
+        <javac srcdir="src" destdir="build/class"/>
+    </target>
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Finance.jar" basedir="build/class">
+            <manifest>
+                <attribute name="Main-Class" value="Finance"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="run">
+        <java jar="build/jar/Finance.jar" fork="true"/>
+    </target>
+</project>
