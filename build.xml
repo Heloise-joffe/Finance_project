@@ -1,10 +1,36 @@
-<project name="Finance-project" default="jar" basedir=".">
+<project name="Finance-project" basedir=".">
     <target name="clean">
         <delete dir="build"/>
     </target>
     <target name="compile">
         <mkdir dir="build/class"/>
-        <javac srcdir="src" destdir="build/class"/>
+        <javac srcdir="src" destdir="build/class" includeantruntime="false">
+            <classpath>
+                <pathelement location="lib/junit-4.13.2.jar"/>
+            </classpath>
+        </javac>
+    </target>
+    <target name="junit" depends="compile">
+        <mkdir dir="test/reports"/>
+        <junit printsummary="true">
+            <classpath>
+                <pathelement location="lib/junit-4.13.2.jar"/>
+                <pathelement location="test"/>
+                <pathelement location="build/class"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="test/reports">
+                <fileset dir="src/test">
+                    <include name="**/*Test*.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    <target name="junitreport" depends="junit">
+        <junitreport todir="test/reports">
+            <fileset dir="test/reports" includes="TEST-*.xml" />
+            <report todir="test/reports" />
+        </junitreport>
     </target>
     <target name="jar">
         <mkdir dir="build/jar"/>
