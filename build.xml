@@ -2,11 +2,26 @@
     <target name="clean">
         <delete dir="build"/>
     </target>
+    <path id="pitest.path">
+        <pathelement location="lib/pitest-1.9.3.jar"/>
+        <pathelement location="lib/pitest-ant-1.9.3.jar"/>
+        <pathelement location="lib/pitest-entry-1.9.3.jar"/>
+    </path>
+    <path id="test.path">
+        <pathelement location="lib/junit-4.13.2.jar"/>
+        <pathelement location="lib/hamcrest-all-1.3.jar"/>
+        <pathelement location="test"/>
+        <pathelement location="build/class"/>
+    </path>
+    <path id="mutation.path">
+        <path refid="pitest.path"/>
+        <path refid="test.path"/>
+    </path>
     <target name="compile">
         <mkdir dir="build/class"/>
-        <javac srcdir="src" destdir="build/class" includeantruntime="false">
+        <javac srcdir="src" destdir="build/class" includeantruntime="false" debug="true" debuglevel="source,lines">
             <classpath>
-                <pathelement location="lib/junit-4.13.2.jar"/>
+                <path refid="mutation.path"/>
             </classpath>
         </javac>
     </target>
@@ -14,9 +29,7 @@
         <mkdir dir="test/reports"/>
         <junit printsummary="true">
             <classpath>
-                <pathelement location="lib/junit-4.13.2.jar"/>
-                <pathelement location="test"/>
-                <pathelement location="build/class"/>
+                <path refid="test.path"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest fork="yes" todir="test/reports">
@@ -31,6 +44,18 @@
             <fileset dir="test/reports" includes="TEST-*.xml" />
             <report todir="test/reports" />
         </junitreport>
+    </target>
+    <taskdef name="pitest" classname="org.pitest.ant.PitestTask" classpathref="pitest.path" />
+    <target name="mutation_test" depends="junit">
+        <pitest features="+EXPORT" 
+        pitClasspath="pitest.path" 
+        threads="2" 
+        classPath="mutation.path" 
+        targetTests="Finance_Test" 
+        targetClasses="Finance_Test" 
+        reportDir="test/pitReports" 
+        sourceDir="src"
+        />
     </target>
     <target name="jar">
         <mkdir dir="build/jar"/>

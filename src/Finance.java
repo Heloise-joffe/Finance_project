@@ -29,16 +29,14 @@ public class Finance {
 		return overall_debt;
 	}
 
-	public static Scanner scanner = new Scanner(System.in);
-
-	public static double verification(double value)
+	public static double verification(double valuetocheck, Scanner scanner)
 	{
-		while (value <= 0)
+		while (valuetocheck <= 0)
 		{
 			System.out.println("Your number must be positiv ! Choose an other value : ");
-			value = scanner.nextDouble();
+			valuetocheck = scanner.nextDouble();
 		}
-		return value;
+		return valuetocheck;
 	}
 
 	public static void main(String[] args) 
@@ -46,13 +44,13 @@ public class Finance {
 		Scanner Finance = new Scanner(System.in);
 		try {
 		System.out.println("Enter your Debt value :");
-		double Debt_Value = verification(Finance.nextDouble());
+		double Debt_Value = verification(Finance.nextDouble(),Finance);
 		
 		System.out.println("Enter your interest rate :");
-		double interest_rate = verification(Finance.nextDouble());
+		double interest_rate = verification(Finance.nextDouble(),Finance);
 		
 		System.out.println("Enter your payback duration in months :");
-		double payback_duration = verification(Finance.nextDouble());
+		double payback_duration = verification(Finance.nextDouble(),Finance);
 		
 		double monthly_rate = calculate_monthly_rate(Debt_Value, interest_rate, payback_duration);
 		double overall_debt = calculate_overall_debt(Debt_Value, interest_rate, payback_duration, monthly_rate);
