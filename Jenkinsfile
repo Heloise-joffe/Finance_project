@@ -1,9 +1,10 @@
- pipeline {
+pipeline {
     agent any 
     stages {
-        stage('Stage 1') {
+        stage('Git clone & clean') {
             steps {
-                echo 'Hello world!' 
+                bat "git clone https://github.com/Heloise-joffe/Finance_project.git" 
+                bat "ant clean -f Finance_project/build.xml"
             }
         }
     }
