@@ -4,7 +4,7 @@ public class Finance {
 
 	public static double calculate_month_rate(double interest_rate)
 	{
-		return (Math.pow(1 + (interest_rate / 100),1.0/6.0)-1)*100;
+		return (Math.pow(1 + (interest_rate / 100),1.0/12.0)-1)*100;
 	}
 
 	public static double calculate_monthly_rate(double Debt_Value, double interest_rate, double payback_duration)
