@@ -17,8 +17,6 @@ pipeline {
         stage('Tests'){
             steps {
                 bat "ant junitreport"
-            }
-            steps {
                 bat "ant mutation_test"
             }
         }
