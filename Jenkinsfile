@@ -9,5 +9,10 @@ pipeline {
                 bat "ant clean"
             }
         }
+        stage('Compilation & run'){
+            steps {
+                bat "ant run"
+            }
+        }
     }
 }
