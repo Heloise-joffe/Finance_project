@@ -9,9 +9,27 @@ pipeline {
                 bat "ant clean"
             }
         }
-        stage('Compilation & run'){
+        stage('Compilation & jar'){
             steps {
-                bat "ant run -Dfork=True"
+                bat "ant jar"
+            }
+        }
+        stage('Tests'){
+            steps {
+                bat "ant junitreport"
+            }
+            steps {
+                bat "ant mutation_test"
+            }
+        }
+        stage('Bugs'){
+            steps {
+                bat "ant spotbugs"
+            }
+        }
+        stage('Metrics'){
+            steps {
+                bat "ant metrics"
             }
         }
     }
