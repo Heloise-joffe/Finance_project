@@ -1,6 +1,9 @@
 <project name="Finance-project" basedir=".">
     <target name="clean">
         <delete dir="build"/>
+        <delete dir="test"/>
+        <delete dir="metricsReports"/>
+        <delete dir="bugs"/>
     </target>
     <path id="pitest.path">
         <pathelement location="lib/pitest-1.9.3.jar"/>
@@ -24,6 +27,17 @@
                 <path refid="mutation.path"/>
             </classpath>
         </javac>
+    </target>
+    <target name="jar" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/Finance.jar" basedir="build/class">
+            <manifest>
+                <attribute name="Main-Class" value="Finance"/>
+            </manifest>
+        </jar>
+    </target>
+    <target name="run" depends="jar">
+        <java jar="build/jar/Finance.jar" fork="true"/>
     </target>
     <target name="junit" depends="compile">
         <mkdir dir="test/reports"/>
@@ -57,15 +71,28 @@
         sourceDir="src"
         />
     </target>
-    <target name="jar">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/Finance.jar" basedir="build/class">
-            <manifest>
-                <attribute name="Main-Class" value="Finance"/>
-            </manifest>
-        </jar>
+    <taskdef
+    resource="edu/umd/cs/findbugs/anttask/tasks.properties"
+    classpath="C:/Users/heloi/Documents/allemagne/Syse/apache-ant-1.9.16/lib/spotbugs-ant.jar" />
+    <property name="spotbugs.home" value="C:\Users\heloi\Documents\allemagne\Syse\spotbugs-4.8.3" />
+    <target name="spotbugs" depends="jar">
+        <mkdir dir="bugs"/>
+        <spotbugs home="${spotbugs.home}"
+            output="html"
+            outputFile="bugs/FinanceBugs.html" >
+            <sourcePath path="src/Finance.java" />
+            <class location="build/jar/Finance.jar" />
+        </spotbugs>
     </target>
-    <target name="run">
-        <java jar="build/jar/Finance.jar" fork="true"/>
+    <target name="metrics">
+        <mkdir dir="metricsReports"/>
+        <exec executable="scc">
+            <arg value="--by-file"/>
+            <arg value="--exclude-ext=html" />
+            <arg value="-f" />
+            <arg value="html" />
+            <arg value="-o" />
+            <arg value="metricsReports/output.html" />
+        </exec>
     </target>
 </project>
