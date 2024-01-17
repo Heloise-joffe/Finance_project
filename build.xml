@@ -47,7 +47,7 @@
             </classpath>
             <formatter type="xml"/>
             <batchtest fork="yes" todir="test/reports">
-                <fileset dir="src/test">
+                <fileset dir="src/Test">
                     <include name="**/*Test*.java" />
                 </fileset>
             </batchtest>
@@ -88,7 +88,8 @@
         <mkdir dir="metricsReports"/>
         <exec executable="scc">
             <arg value="--by-file"/>
-            <arg value="--exclude-ext=html" />
+            <arg value="--exclude-ext=css" />
+            <arg value="--exclude-dir=test" />
             <arg value="-f" />
             <arg value="html" />
             <arg value="-o" />
