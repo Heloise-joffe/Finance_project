@@ -1,7 +1,10 @@
 pipeline {
     agent any 
+    triggers {
+        pollSCM '* * * * *'
+    }
     stages {
-        stage('Git clone & clean') {
+        stage('git clean') {
             steps {
                 bat "ant clean"
             }
