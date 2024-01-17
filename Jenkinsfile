@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Compilation & run'){
             steps {
-                bat "ant run"
+                bat "ant run -Dfork=True"
             }
         }
     }
