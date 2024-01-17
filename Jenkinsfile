@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Git clone & clean') {
             steps {
-                bat "ant clean -f Finance_project/build.xml"
+                bat "ant clean"
             }
         }
     }
